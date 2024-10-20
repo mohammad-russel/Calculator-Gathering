@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdSense Revenue Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #edf2f7; /* Tailwind's gray-200 */
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center h-screen">
+
+<div class="bg-white p-8 rounded shadow-lg w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-4 text-center">AdSense Revenue Calculator</h2>
+    
+    <label for="pageViews" class="block mb-2">Page Views:</label>
+    <input type="number" id="pageViews" class="border p-2 w-full mb-4" placeholder="Enter total page views">
+
+    <label for="ctr" class="block mb-2">Click-Through Rate (CTR %):</label>
+    <input type="number" id="ctr" class="border p-2 w-full mb-4" placeholder="Enter CTR in percentage" step="0.01">
+
+    <label for="cpc" class="block mb-2">Cost Per Click (CPC):</label>
+    <input type="number" id="cpc" class="border p-2 w-full mb-4" placeholder="Enter CPC in your currency">
+
+    <button id="calculateRevenue" class="bg-blue-500 text-white p-3 rounded w-full">Calculate Revenue</button>
+
+    <h3 class="text-xl font-bold mt-4">Estimated Revenue: <span id="revenueResult" class="text-blue-500">0</span></h3>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#calculateRevenue').click(function() {
+        const pageViews = parseFloat($('#pageViews').val());
+        const ctr = parseFloat($('#ctr').val()) / 100; // Convert percentage to decimal
+        const cpc = parseFloat($('#cpc').val());
+
+        if (isNaN(pageViews) || isNaN(ctr) || isNaN(cpc) || pageViews <= 0 || ctr < 0 || cpc < 0) {
+            $('#revenueResult').text('Invalid Input');
+            return;
+        }
+
+        // Calculate estimated revenue
+        const estimatedRevenue = pageViews * ctr * cpc;
+        $('#revenueResult').text(estimatedRevenue.toFixed(2));
+    });
+});
+</script>
+
+</body>
+</html>

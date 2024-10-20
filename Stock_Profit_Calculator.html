@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Profit Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #edf2f7; /* Tailwind's gray-200 */
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center h-screen">
+
+<div class="bg-white p-8 rounded shadow-lg w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-4 text-center">Stock Profit Calculator</h2>
+
+    <label for="purchasePrice" class="block mb-2">Purchase Price per Share:</label>
+    <input type="number" id="purchasePrice" class="border p-2 w-full mb-4" placeholder="Enter purchase price" step="any">
+
+    <label for="sellingPrice" class="block mb-2">Selling Price per Share:</label>
+    <input type="number" id="sellingPrice" class="border p-2 w-full mb-4" placeholder="Enter selling price" step="any">
+
+    <label for="numberOfShares" class="block mb-2">Number of Shares:</label>
+    <input type="number" id="numberOfShares" class="border p-2 w-full mb-4" placeholder="Enter number of shares" step="any">
+
+    <button id="calculate" class="bg-blue-500 text-white p-3 rounded w-full">Calculate Profit/Loss</button>
+
+    <h3 class="text-xl font-bold mt-4">Result:</h3>
+    <p id="result" class="text-blue-500">N/A</p>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#calculate').click(function() {
+        const purchasePrice = parseFloat($('#purchasePrice').val());
+        const sellingPrice = parseFloat($('#sellingPrice').val());
+        const numberOfShares = parseInt($('#numberOfShares').val());
+
+        // Check if inputs are valid
+        if (isNaN(purchasePrice) || purchasePrice < 0 || isNaN(sellingPrice) || sellingPrice < 0 || isNaN(numberOfShares) || numberOfShares <= 0) {
+            $('#result').text('Invalid Input');
+            return;
+        }
+
+        // Calculate profit/loss
+        const totalCost = purchasePrice * numberOfShares;
+        const totalRevenue = sellingPrice * numberOfShares;
+        const profitLoss = totalRevenue - totalCost;
+
+        // Display results
+        if (profitLoss > 0) {
+            $('#result').text(`Profit: $${profitLoss.toFixed(2)}`);
+        } else if (profitLoss < 0) {
+            $('#result').text(`Loss: $${Math.abs(profitLoss).toFixed(2)}`);
+        } else {
+            $('#result').text('No Profit, No Loss');
+        }
+    });
+});
+</script>
+
+</body>
+</html>

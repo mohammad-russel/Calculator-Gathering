@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markup Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #edf2f7; /* Tailwind's gray-200 */
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center h-screen">
+
+<div class="bg-white p-8 rounded shadow-lg w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-4 text-center">Markup Calculator</h2>
+    
+    <label for="costPrice" class="block mb-2">Cost Price ($):</label>
+    <input type="number" id="costPrice" class="border p-2 w-full mb-4" placeholder="Enter cost price">
+
+    <label for="markupPercentage" class="block mb-2">Markup Percentage (%):</label>
+    <input type="number" id="markupPercentage" class="border p-2 w-full mb-4" placeholder="Enter markup percentage">
+
+    <button id="calculateMarkup" class="bg-blue-500 text-white p-3 rounded w-full">Calculate Selling Price</button>
+
+    <h3 class="text-xl font-bold mt-4">Selling Price: <span id="sellingPrice" class="text-blue-500">0</span>$</h3>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#calculateMarkup').click(function() {
+        const costPrice = parseFloat($('#costPrice').val());
+        const markupPercentage = parseFloat($('#markupPercentage').val());
+
+        if (isNaN(costPrice) || isNaN(markupPercentage) || costPrice < 0 || markupPercentage < 0) {
+            $('#sellingPrice').text('Invalid Input');
+            return;
+        }
+
+        // Calculate selling price
+        const sellingPrice = costPrice + (costPrice * (markupPercentage / 100));
+
+        $('#sellingPrice').text(sellingPrice.toFixed(2));
+    });
+});
+</script>
+
+</body>
+</html>

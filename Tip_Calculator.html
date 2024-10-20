@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tip Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #edf2f7; /* Tailwind's gray-200 */
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center h-screen">
+
+<div class="bg-white p-8 rounded shadow-lg w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-4 text-center">Tip Calculator</h2>
+    
+    <label for="billAmount" class="block mb-2">Bill Amount:</label>
+    <input type="number" id="billAmount" class="border p-2 w-full mb-4" placeholder="Enter bill amount">
+
+    <label for="tipPercentage" class="block mb-2">Tip Percentage:</label>
+    <select id="tipPercentage" class="border p-2 w-full mb-4">
+        <option value="0">0%</option>
+        <option value="10">10%</option>
+        <option value="15">15%</option>
+        <option value="20">20%</option>
+        <option value="25">25%</option>
+        <option value="30">30%</option>
+    </select>
+
+    <button id="calculateTip" class="bg-blue-500 text-white p-3 rounded w-full">Calculate</button>
+
+    <h3 class="text-xl font-bold mt-4">Total Amount: <span id="totalAmount" class="text-blue-500">0</span></h3>
+    <h3 class="text-xl font-bold mt-2">Tip Amount: <span id="tipAmount" class="text-blue-500">0</span></h3>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#calculateTip').click(function() {
+        const billAmount = parseFloat($('#billAmount').val());
+        const tipPercentage = parseFloat($('#tipPercentage').val());
+
+        if (isNaN(billAmount) || billAmount <= 0) {
+            $('#totalAmount').text('Invalid Input');
+            $('#tipAmount').text('Invalid Input');
+            return;
+        }
+
+        const tipAmount = (billAmount * tipPercentage) / 100;
+        const totalAmount = billAmount + tipAmount;
+
+        $('#tipAmount').text(tipAmount.toFixed(2));
+        $('#totalAmount').text(totalAmount.toFixed(2));
+    });
+});
+</script>
+
+</body>
+</html>

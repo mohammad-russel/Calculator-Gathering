@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horsepower Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #edf2f7; /* Tailwind's gray-200 */
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center h-screen">
+
+<div class="bg-white p-8 rounded shadow-lg w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-4 text-center">Horsepower Calculator</h2>
+
+    <label for="torque" class="block mb-2">Torque (lb-ft):</label>
+    <input type="number" id="torque" class="border p-2 w-full mb-4" placeholder="Enter torque in lb-ft" step="any">
+
+    <label for="rpm" class="block mb-2">Engine Speed (RPM):</label>
+    <input type="number" id="rpm" class="border p-2 w-full mb-4" placeholder="Enter engine speed in RPM" step="any">
+
+    <button id="calculateHorsepower" class="bg-blue-500 text-white p-3 rounded w-full">Calculate Horsepower</button>
+
+    <h3 class="text-xl font-bold mt-4">Result:</h3>
+    <p id="result" class="text-blue-500">N/A</p>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#calculateHorsepower').click(function() {
+        const torque = parseFloat($('#torque').val());
+        const rpm = parseFloat($('#rpm').val());
+
+        // Check if input is valid
+        if (isNaN(torque) || isNaN(rpm) || torque < 0 || rpm <= 0) {
+            $('#result').text('Invalid Input. Please enter valid torque and RPM.');
+            return;
+        }
+
+        // Calculate Horsepower
+        const horsepower = (torque * rpm) / 5252;
+
+        // Display the result
+        $('#result').text(`Horsepower: ${horsepower.toFixed(2)} hp`);
+    });
+});
+</script>
+
+</body>
+</html>

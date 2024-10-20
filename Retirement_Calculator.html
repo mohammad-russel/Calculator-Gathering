@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retirement Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #edf2f7; /* Tailwind's gray-200 */
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center h-screen">
+
+<div class="bg-white p-8 rounded shadow-lg w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-4 text-center">Retirement Calculator</h2>
+    
+    <label for="currentAge" class="block mb-2">Current Age:</label>
+    <input type="number" id="currentAge" class="border p-2 w-full mb-4" placeholder="Enter your current age">
+
+    <label for="retirementAge" class="block mb-2">Retirement Age:</label>
+    <input type="number" id="retirementAge" class="border p-2 w-full mb-4" placeholder="Enter your planned retirement age">
+
+    <label for="currentSavings" class="block mb-2">Current Savings ($):</label>
+    <input type="number" id="currentSavings" class="border p-2 w-full mb-4" placeholder="Enter your current savings">
+
+    <label for="goalAmount" class="block mb-2">Retirement Goal Amount ($):</label>
+    <input type="number" id="goalAmount" class="border p-2 w-full mb-4" placeholder="Enter your retirement goal amount">
+
+    <button id="calculateRetirement" class="bg-blue-500 text-white p-3 rounded w-full">Calculate</button>
+
+    <h3 class="text-xl font-bold mt-4">Monthly Savings Needed: <span id="monthlySavings" class="text-blue-500">0</span></h3>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#calculateRetirement').click(function() {
+        const currentAge = parseInt($('#currentAge').val());
+        const retirementAge = parseInt($('#retirementAge').val());
+        const currentSavings = parseFloat($('#currentSavings').val());
+        const goalAmount = parseFloat($('#goalAmount').val());
+
+        if (isNaN(currentAge) || isNaN(retirementAge) || isNaN(currentSavings) || isNaN(goalAmount) || 
+            currentAge < 0 || retirementAge <= currentAge || currentSavings < 0 || goalAmount < 0) {
+            $('#monthlySavings').text('Invalid Input');
+            return;
+        }
+
+        const yearsToSave = retirementAge - currentAge; // Years remaining until retirement
+        const totalSavingsNeeded = goalAmount - currentSavings; // Total savings needed
+        const monthlySavings = totalSavingsNeeded / (yearsToSave * 12); // Monthly savings required
+
+        if (monthlySavings < 0) {
+            $('#monthlySavings').text('You already have enough savings!');
+        } else {
+            $('#monthlySavings').text(monthlySavings.toFixed(2));
+        }
+    });
+});
+</script>
+
+</body>
+</html>

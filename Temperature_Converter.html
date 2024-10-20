@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperature Converter</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #edf2f7; /* Tailwind's gray-200 */
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center h-screen">
+
+<div class="bg-white p-8 rounded shadow-lg w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-4 text-center">Temperature Converter</h2>
+    
+    <label for="temperature" class="block mb-2">Temperature:</label>
+    <input type="number" id="temperature" class="border p-2 w-full mb-4" placeholder="Enter temperature" step="any">
+
+    <label for="fromUnit" class="block mb-2">From:</label>
+    <select id="fromUnit" class="border p-2 w-full mb-4">
+        <option value="Celsius">Celsius</option>
+        <option value="Fahrenheit">Fahrenheit</option>
+        <option value="Kelvin">Kelvin</option>
+    </select>
+
+    <label for="toUnit" class="block mb-2">To:</label>
+    <select id="toUnit" class="border p-2 w-full mb-4">
+        <option value="Celsius">Celsius</option>
+        <option value="Fahrenheit">Fahrenheit</option>
+        <option value="Kelvin">Kelvin</option>
+    </select>
+
+    <button id="convert" class="bg-blue-500 text-white p-3 rounded w-full">Convert</button>
+
+    <h3 class="text-xl font-bold mt-4">Converted Temperature: <span id="resultTemperature" class="text-blue-500">N/A</span></h3>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#convert').click(function() {
+        const temperature = parseFloat($('#temperature').val());
+        const fromUnit = $('#fromUnit').val();
+        const toUnit = $('#toUnit').val();
+
+        let convertedTemperature;
+
+        // Check if the temperature input is valid
+        if (isNaN(temperature)) {
+            $('#resultTemperature').text('Invalid Input');
+            return;
+        }
+
+        // Convert temperature based on selected units
+        if (fromUnit === toUnit) {
+            convertedTemperature = temperature; // No conversion needed
+        } else {
+            switch (fromUnit) {
+                case 'Celsius':
+                    if (toUnit === 'Fahrenheit') {
+                        convertedTemperature = (temperature * 9/5) + 32;
+                    } else { // Kelvin
+                        convertedTemperature = temperature + 273.15;
+                    }
+                    break;
+                case 'Fahrenheit':
+                    if (toUnit === 'Celsius') {
+                        convertedTemperature = (temperature - 32) * 5/9;
+                    } else { // Kelvin
+                        convertedTemperature = (temperature - 32) * 5/9 + 273.15;
+                    }
+                    break;
+                case 'Kelvin':
+                    if (toUnit === 'Celsius') {
+                        convertedTemperature = temperature - 273.15;
+                    } else { // Fahrenheit
+                        convertedTemperature = (temperature - 273.15) * 9/5 + 32;
+                    }
+                    break;
+            }
+        }
+
+        $('#resultTemperature').text(convertedTemperature.toFixed(2));
+    });
+});
+</script>
+
+</body>
+</html>

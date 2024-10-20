@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pace Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #edf2f7; /* Tailwind's gray-200 */
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center h-screen">
+
+<div class="bg-white p-8 rounded shadow-lg w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-4 text-center">Pace Calculator</h2>
+
+    <label for="distance" class="block mb-2">Distance (miles or kilometers):</label>
+    <input type="number" id="distance" class="border p-2 w-full mb-4" placeholder="Enter distance" step="any">
+
+    <label for="time" class="block mb-2">Time (hh:mm:ss):</label>
+    <input type="text" id="time" class="border p-2 w-full mb-4" placeholder="Enter time (hh:mm:ss)">
+
+    <button id="calculate" class="bg-blue-500 text-white p-3 rounded w-full">Calculate Pace</button>
+
+    <h3 class="text-xl font-bold mt-4">Your Pace: <span id="resultPace" class="text-blue-500">N/A</span></h3>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#calculate').click(function() {
+        const distance = parseFloat($('#distance').val());
+        const timeInput = $('#time').val();
+
+        // Parse time
+        const timeParts = timeInput.split(':');
+        if (timeParts.length !== 3) {
+            $('#resultPace').text('Invalid Time Format');
+            return;
+        }
+
+        const hours = parseInt(timeParts[0]) || 0;
+        const minutes = parseInt(timeParts[1]) || 0;
+        const seconds = parseInt(timeParts[2]) || 0;
+
+        // Total time in seconds
+        const totalTimeInSeconds = (hours * 3600) + (minutes * 60) + seconds;
+
+        // Check if inputs are valid
+        if (isNaN(distance) || distance <= 0 || totalTimeInSeconds <= 0) {
+            $('#resultPace').text('Invalid Input');
+            return;
+        }
+
+        // Calculate pace in seconds per unit of distance
+        const paceInSeconds = totalTimeInSeconds / distance;
+
+        // Convert pace to mm:ss format
+        const paceMinutes = Math.floor(paceInSeconds / 60);
+        const paceSeconds = Math.round(paceInSeconds % 60);
+
+        $('#resultPace').text(`${paceMinutes}:${String(paceSeconds).padStart(2, '0')} per ${distance === 1 ? 'mile' : 'kilometer'}`);
+    });
+});
+</script>
+
+</body>
+</html>

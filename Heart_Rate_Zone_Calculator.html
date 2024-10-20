@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Rate Zone Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #edf2f7; /* Tailwind's gray-200 */
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center h-screen">
+
+<div class="bg-white p-8 rounded shadow-lg w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-4 text-center">Heart Rate Zone Calculator</h2>
+
+    <label for="age" class="block mb-2">Age:</label>
+    <input type="number" id="age" class="border p-2 w-full mb-4" placeholder="Enter your age" min="1">
+
+    <label for="restingHeartRate" class="block mb-2">Resting Heart Rate (bpm):</label>
+    <input type="number" id="restingHeartRate" class="border p-2 w-full mb-4" placeholder="Enter resting heart rate" min="1">
+
+    <button id="calculate" class="bg-blue-500 text-white p-3 rounded w-full">Calculate Heart Rate Zones</button>
+
+    <h3 class="text-xl font-bold mt-4">Heart Rate Zones:</h3>
+    <ul id="resultZones" class="list-disc pl-5 text-blue-500"></ul>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#calculate').click(function() {
+        const age = parseInt($('#age').val());
+        const restingHeartRate = parseInt($('#restingHeartRate').val());
+
+        // Check if inputs are valid
+        if (isNaN(age) || age < 1 || isNaN(restingHeartRate) || restingHeartRate < 1) {
+            $('#resultZones').html('<li>Invalid Input</li>');
+            return;
+        }
+
+        // Calculate maximum heart rate
+        const maxHeartRate = 220 - age;
+
+        // Calculate heart rate zones
+        const zone1 = { min: restingHeartRate + 0.5 * (maxHeartRate - restingHeartRate), max: restingHeartRate + 0.6 * (maxHeartRate - restingHeartRate) }; // 50-60%
+        const zone2 = { min: restingHeartRate + 0.6 * (maxHeartRate - restingHeartRate), max: restingHeartRate + 0.7 * (maxHeartRate - restingHeartRate) }; // 60-70%
+        const zone3 = { min: restingHeartRate + 0.7 * (maxHeartRate - restingHeartRate), max: restingHeartRate + 0.8 * (maxHeartRate - restingHeartRate) }; // 70-80%
+        const zone4 = { min: restingHeartRate + 0.8 * (maxHeartRate - restingHeartRate), max: restingHeartRate + 0.9 * (maxHeartRate - restingHeartRate) }; // 80-90%
+        const zone5 = { min: restingHeartRate + 0.9 * (maxHeartRate - restingHeartRate), max: maxHeartRate }; // 90-100%
+
+        // Display results
+        $('#resultZones').html(`
+            <li>Zone 1 (50-60%): ${Math.round(zone1.min)} - ${Math.round(zone1.max)} bpm</li>
+            <li>Zone 2 (60-70%): ${Math.round(zone2.min)} - ${Math.round(zone2.max)} bpm</li>
+            <li>Zone 3 (70-80%): ${Math.round(zone3.min)} - ${Math.round(zone3.max)} bpm</li>
+            <li>Zone 4 (80-90%): ${Math.round(zone4.min)} - ${Math.round(zone4.max)} bpm</li>
+            <li>Zone 5 (90-100%): ${Math.round(zone5.min)} - ${Math.round(zone5.max)} bpm</li>
+        `);
+    });
+});
+</script>
+
+</body>
+</html>

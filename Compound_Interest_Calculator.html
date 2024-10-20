@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compound Interest Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #edf2f7; /* Tailwind's gray-200 */
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center h-screen">
+
+<div class="bg-white p-8 rounded shadow-lg w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-4 text-center">Compound Interest Calculator</h2>
+    
+    <label for="principal" class="block mb-2">Principal Amount:</label>
+    <input type="number" id="principal" class="border p-2 w-full mb-4" placeholder="Enter principal amount" min="0" step="any">
+
+    <label for="rate" class="block mb-2">Annual Interest Rate (in %):</label>
+    <input type="number" id="rate" class="border p-2 w-full mb-4" placeholder="Enter interest rate" min="0" step="any">
+
+    <label for="time" class="block mb-2">Time (in years):</label>
+    <input type="number" id="time" class="border p-2 w-full mb-4" placeholder="Enter time period" min="0" step="any">
+
+    <label for="compoundsPerYear" class="block mb-2">Compounding Frequency (times per year):</label>
+    <input type="number" id="compoundsPerYear" class="border p-2 w-full mb-4" placeholder="Enter number of times interest is compounded per year" min="1" step="1">
+
+    <button id="calculateInterest" class="bg-blue-500 text-white p-3 rounded w-full">Calculate Compound Interest</button>
+
+    <h3 class="text-xl font-bold mt-4">Final Amount: <span id="finalAmount" class="text-blue-500">0</span></h3>
+    <h3 class="text-xl font-bold mt-2">Interest Earned: <span id="interestEarned" class="text-blue-500">0</span></h3>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#calculateInterest').click(function() {
+        const principal = parseFloat($('#principal').val());
+        const rate = parseFloat($('#rate').val()) / 100; // Convert percentage to decimal
+        const time = parseFloat($('#time').val());
+        const compoundsPerYear = parseInt($('#compoundsPerYear').val());
+
+        // Check for valid input
+        if (isNaN(principal) || principal < 0 || 
+            isNaN(rate) || rate < 0 || 
+            isNaN(time) || time < 0 || 
+            isNaN(compoundsPerYear) || compoundsPerYear < 1) {
+            $('#finalAmount').text('Invalid Input');
+            $('#interestEarned').text('N/A');
+            return;
+        }
+
+        // Calculate compound interest
+        const finalAmount = principal * Math.pow((1 + rate / compoundsPerYear), (compoundsPerYear * time));
+        const interestEarned = finalAmount - principal;
+
+        $('#finalAmount').text(finalAmount.toFixed(2));
+        $('#interestEarned').text(interestEarned.toFixed(2));
+    });
+});
+</script>
+
+</body>
+</html>

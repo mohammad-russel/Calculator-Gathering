@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #edf2f7; /* Tailwind's gray-200 */
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center h-screen">
+
+<div class="bg-white p-8 rounded shadow-lg w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-4 text-center">Age Calculator</h2>
+    
+    <label for="dob" class="block mb-2">Date of Birth:</label>
+    <input type="date" id="dob" class="border p-2 w-full mb-4">
+
+    <button id="calculateAge" class="bg-blue-500 text-white p-3 rounded w-full">Calculate Age</button>
+
+    <h3 class="text-xl font-bold mt-4">Your Age: <span id="ageResult" class="text-blue-500">0 years, 0 months, 0 days</span></h3>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#calculateAge').click(function() {
+        const dob = new Date($('#dob').val());
+        const today = new Date();
+
+        if (isNaN(dob.getTime())) {
+            $('#ageResult').text('Invalid Date');
+            return;
+        }
+
+        let ageYears = today.getFullYear() - dob.getFullYear();
+        let ageMonths = today.getMonth() - dob.getMonth();
+        let ageDays = today.getDate() - dob.getDate();
+
+        if (ageDays < 0) {
+            ageMonths--;
+            ageDays += new Date(today.getFullYear(), today.getMonth(), 0).getDate(); // Get the last day of the previous month
+        }
+
+        if (ageMonths < 0) {
+            ageYears--;
+            ageMonths += 12;
+        }
+
+        $('#ageResult').text(`${ageYears} years, ${ageMonths} months, ${ageDays} days`);
+    });
+});
+</script>
+
+</body>
+</html>

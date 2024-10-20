@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inflation Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #edf2f7; /* Tailwind's gray-200 */
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center h-screen">
+
+<div class="bg-white p-8 rounded shadow-lg w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-4 text-center">Inflation Calculator</h2>
+    
+    <label for="initialAmount" class="block mb-2">Initial Amount ($):</label>
+    <input type="number" id="initialAmount" class="border p-2 w-full mb-4" placeholder="Enter initial amount">
+
+    <label for="annualInflationRate" class="block mb-2">Annual Inflation Rate (%):</label>
+    <input type="number" id="annualInflationRate" class="border p-2 w-full mb-4" placeholder="Enter annual inflation rate">
+
+    <label for="numberOfYears" class="block mb-2">Number of Years:</label>
+    <input type="number" id="numberOfYears" class="border p-2 w-full mb-4" placeholder="Enter number of years">
+
+    <button id="calculateInflation" class="bg-blue-500 text-white p-3 rounded w-full">Calculate</button>
+
+    <h3 class="text-xl font-bold mt-4">Future Value: <span id="futureValue" class="text-blue-500">0</span></h3>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#calculateInflation').click(function() {
+        const initialAmount = parseFloat($('#initialAmount').val());
+        const annualInflationRate = parseFloat($('#annualInflationRate').val()) / 100;
+        const numberOfYears = parseInt($('#numberOfYears').val());
+
+        if (isNaN(initialAmount) || isNaN(annualInflationRate) || isNaN(numberOfYears) || 
+            initialAmount < 0 || annualInflationRate < 0 || numberOfYears < 0) {
+            $('#futureValue').text('Invalid Input');
+            return;
+        }
+
+        // Calculate future value using the formula for inflation adjustment
+        const futureValue = initialAmount * Math.pow(1 + annualInflationRate, numberOfYears);
+
+        $('#futureValue').text(futureValue.toFixed(2));
+    });
+});
+</script>
+
+</body>
+</html>

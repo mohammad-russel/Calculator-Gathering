@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lease Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #edf2f7; /* Tailwind's gray-200 */
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center h-screen">
+
+<div class="bg-white p-8 rounded shadow-lg w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-4 text-center">Lease Calculator</h2>
+    
+    <label for="totalCost" class="block mb-2">Total Cost of Lease ($):</label>
+    <input type="number" id="totalCost" class="border p-2 w-full mb-4" placeholder="Enter total cost of lease">
+
+    <label for="leaseTerm" class="block mb-2">Lease Term (months):</label>
+    <input type="number" id="leaseTerm" class="border p-2 w-full mb-4" placeholder="Enter lease term in months">
+
+    <label for="additionalFees" class="block mb-2">Additional Fees ($):</label>
+    <input type="number" id="additionalFees" class="border p-2 w-full mb-4" placeholder="Enter any additional fees">
+
+    <button id="calculateLease" class="bg-blue-500 text-white p-3 rounded w-full">Calculate Monthly Lease Payment</button>
+
+    <h3 class="text-xl font-bold mt-4">Monthly Lease Payment: <span id="monthlyPayment" class="text-blue-500">0</span></h3>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#calculateLease').click(function() {
+        const totalCost = parseFloat($('#totalCost').val());
+        const leaseTerm = parseFloat($('#leaseTerm').val());
+        const additionalFees = parseFloat($('#additionalFees').val());
+
+        if (isNaN(totalCost) || isNaN(leaseTerm) || isNaN(additionalFees) || totalCost <= 0 || leaseTerm <= 0) {
+            $('#monthlyPayment').text('Invalid Input');
+            return;
+        }
+
+        // Calculate monthly lease payment
+        const monthlyPayment = (totalCost + additionalFees) / leaseTerm;
+
+        $('#monthlyPayment').text(monthlyPayment.toFixed(2));
+    });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Converter</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #edf2f7; /* Tailwind's gray-200 */
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center h-screen">
+
+<div class="bg-white p-8 rounded shadow-lg w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-4 text-center">Unit Converter</h2>
+
+    <label for="value" class="block mb-2">Value:</label>
+    <input type="number" id="value" class="border p-2 w-full mb-4" placeholder="Enter value" step="any">
+
+    <label for="unitType" class="block mb-2">Select Unit Type:</label>
+    <select id="unitType" class="border p-2 w-full mb-4">
+        <option value="length">Length</option>
+        <option value="weight">Weight</option>
+    </select>
+
+    <label for="fromUnit" class="block mb-2">From Unit:</label>
+    <select id="fromUnit" class="border p-2 w-full mb-4">
+        <option value="meters">Meters</option>
+        <option value="feet">Feet</option>
+        <option value="kilograms">Kilograms</option>
+        <option value="pounds">Pounds</option>
+    </select>
+
+    <label for="toUnit" class="block mb-2">To Unit:</label>
+    <select id="toUnit" class="border p-2 w-full mb-4">
+        <option value="feet">Feet</option>
+        <option value="meters">Meters</option>
+        <option value="pounds">Pounds</option>
+        <option value="kilograms">Kilograms</option>
+    </select>
+
+    <button id="convert" class="bg-blue-500 text-white p-3 rounded w-full">Convert</button>
+
+    <h3 class="text-xl font-bold mt-4">Result:</h3>
+    <p id="result" class="text-blue-500">N/A</p>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#convert').click(function() {
+        const value = parseFloat($('#value').val());
+        const unitType = $('#unitType').val();
+        const fromUnit = $('#fromUnit').val();
+        const toUnit = $('#toUnit').val();
+
+        // Check if input is valid
+        if (isNaN(value) || value <= 0) {
+            $('#result').text('Invalid Input');
+            return;
+        }
+
+        let convertedValue;
+
+        if (unitType === "length") {
+            if (fromUnit === "meters" && toUnit === "feet") {
+                convertedValue = value * 3.28084; // Meters to Feet
+            } else if (fromUnit === "feet" && toUnit === "meters") {
+                convertedValue = value / 3.28084; // Feet to Meters
+            }
+        } else if (unitType === "weight") {
+            if (fromUnit === "kilograms" && toUnit === "pounds") {
+                convertedValue = value * 2.20462; // Kilograms to Pounds
+            } else if (fromUnit === "pounds" && toUnit === "kilograms") {
+                convertedValue = value / 2.20462; // Pounds to Kilograms
+            }
+        }
+
+        // Display the result
+        $('#result').text(`Converted Value: ${convertedValue.toFixed(2)} ${toUnit}`);
+    });
+
+    // Update units based on the selected type
+    $('#unitType').change(function() {
+        const unitType = $(this).val();
+        if (unitType === "length") {
+            $('#fromUnit').html(`
+                <option value="meters">Meters</option>
+                <option value="feet">Feet</option>
+            `);
+            $('#toUnit').html(`
+                <option value="feet">Feet</option>
+                <option value="meters">Meters</option>
+            `);
+        } else {
+            $('#fromUnit').html(`
+                <option value="kilograms">Kilograms</option>
+                <option value="pounds">Pounds</option>
+            `);
+            $('#toUnit').html(`
+                <option value="pounds">Pounds</option>
+                <option value="kilograms">Kilograms</option>
+            `);
+        }
+    });
+});
+</script>
+
+</body>
+</html>

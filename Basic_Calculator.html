@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #edf2f7; /* Tailwind's gray-200 */
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center h-screen">
+
+<div class="bg-white p-8 rounded shadow-lg">
+    <h2 class="text-2xl font-bold mb-4 text-center">Basic Calculator</h2>
+    <input type="text" id="result" class="border p-2 w-full mb-4" readonly>
+
+    <div class="grid grid-cols-4 gap-2">
+        <button class="bg-blue-500 text-white p-3 rounded" data-value="7">7</button>
+        <button class="bg-blue-500 text-white p-3 rounded" data-value="8">8</button>
+        <button class="bg-blue-500 text-white p-3 rounded" data-value="9">9</button>
+        <button class="bg-blue-500 text-white p-3 rounded" data-value="/">/</button>
+
+        <button class="bg-blue-500 text-white p-3 rounded" data-value="4">4</button>
+        <button class="bg-blue-500 text-white p-3 rounded" data-value="5">5</button>
+        <button class="bg-blue-500 text-white p-3 rounded" data-value="6">6</button>
+        <button class="bg-blue-500 text-white p-3 rounded" data-value="*">*</button>
+
+        <button class="bg-blue-500 text-white p-3 rounded" data-value="1">1</button>
+        <button class="bg-blue-500 text-white p-3 rounded" data-value="2">2</button>
+        <button class="bg-blue-500 text-white p-3 rounded" data-value="3">3</button>
+        <button class="bg-blue-500 text-white p-3 rounded" data-value="-">-</button>
+
+        <button class="bg-blue-500 text-white p-3 rounded" data-value="0">0</button>
+        <button class="bg-blue-500 text-white p-3 rounded" data-value="C">C</button>
+        <button class="bg-blue-500 text-white p-3 rounded" data-value="=">=</button>
+        <button class="bg-blue-500 text-white p-3 rounded" data-value="+">+</button>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    let input = '';
+
+    // Handle button clicks
+    $('.bg-blue-500').click(function() {
+        const value = $(this).data('value');
+
+        if (value === 'C') {
+            input = '';
+        } else if (value === '=') {
+            try {
+                input = eval(input);
+            } catch (error) {
+                input = 'Error';
+            }
+        } else {
+            input += value;
+        }
+
+        $('#result').val(input);
+    });
+});
+</script>
+
+</body>
+</html>

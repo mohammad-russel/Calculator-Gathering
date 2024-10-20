@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speed, Distance, Time Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #edf2f7; /* Tailwind's gray-200 */
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center h-screen">
+
+<div class="bg-white p-8 rounded shadow-lg w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-4 text-center">Speed, Distance, Time Calculator</h2>
+    
+    <label for="speed" class="block mb-2">Speed (in km/h):</label>
+    <input type="number" id="speed" class="border p-2 w-full mb-4" placeholder="Enter speed" min="0" step="any">
+
+    <label for="distance" class="block mb-2">Distance (in km):</label>
+    <input type="number" id="distance" class="border p-2 w-full mb-4" placeholder="Enter distance" min="0" step="any">
+
+    <label for="time" class="block mb-2">Time (in hours):</label>
+    <input type="number" id="time" class="border p-2 w-full mb-4" placeholder="Enter time" min="0" step="any">
+
+    <button id="calculate" class="bg-blue-500 text-white p-3 rounded w-full">Calculate</button>
+
+    <h3 class="text-xl font-bold mt-4">Results:</h3>
+    <h4 class="mt-2">Speed: <span id="resultSpeed" class="text-blue-500">N/A</span> km/h</h4>
+    <h4 class="mt-2">Distance: <span id="resultDistance" class="text-blue-500">N/A</span> km</h4>
+    <h4 class="mt-2">Time: <span id="resultTime" class="text-blue-500">N/A</span> hours</h4>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#calculate').click(function() {
+        const speed = parseFloat($('#speed').val());
+        const distance = parseFloat($('#distance').val());
+        const time = parseFloat($('#time').val());
+
+        // Determine which values are provided
+        if (!isNaN(speed) && !isNaN(distance)) {
+            // Calculate time
+            const calculatedTime = distance / speed;
+            $('#resultTime').text(calculatedTime.toFixed(2));
+            $('#resultSpeed').text(speed);
+            $('#resultDistance').text(distance);
+        } else if (!isNaN(speed) && !isNaN(time)) {
+            // Calculate distance
+            const calculatedDistance = speed * time;
+            $('#resultDistance').text(calculatedDistance.toFixed(2));
+            $('#resultSpeed').text(speed);
+            $('#resultTime').text(time);
+        } else if (!isNaN(distance) && !isNaN(time)) {
+            // Calculate speed
+            const calculatedSpeed = distance / time;
+            $('#resultSpeed').text(calculatedSpeed.toFixed(2));
+            $('#resultDistance').text(distance);
+            $('#resultTime').text(time);
+        } else {
+            // If not enough data is provided
+            $('#resultSpeed').text('N/A');
+            $('#resultDistance').text('N/A');
+            $('#resultTime').text('N/A');
+            alert('Please provide two values for calculation.');
+        }
+    });
+});
+</script>
+
+</body>
+</html>

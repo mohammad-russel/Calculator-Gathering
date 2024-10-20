@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ohm's Law Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #edf2f7; /* Tailwind's gray-200 */
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center h-screen">
+
+<div class="bg-white p-8 rounded shadow-lg w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-4 text-center">Ohm's Law Calculator</h2>
+
+    <label for="voltage" class="block mb-2">Voltage (V):</label>
+    <input type="number" id="voltage" class="border p-2 w-full mb-4" placeholder="Enter voltage in volts" step="any">
+
+    <label for="current" class="block mb-2">Current (I):</label>
+    <input type="number" id="current" class="border p-2 w-full mb-4" placeholder="Enter current in amperes" step="any">
+
+    <label for="resistance" class="block mb-2">Resistance (R):</label>
+    <input type="number" id="resistance" class="border p-2 w-full mb-4" placeholder="Enter resistance in ohms" step="any">
+
+    <button id="calculateOhmsLaw" class="bg-blue-500 text-white p-3 rounded w-full">Calculate</button>
+
+    <h3 class="text-xl font-bold mt-4">Result:</h3>
+    <p id="result" class="text-blue-500">N/A</p>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#calculateOhmsLaw').click(function() {
+        const voltage = parseFloat($('#voltage').val());
+        const current = parseFloat($('#current').val());
+        const resistance = parseFloat($('#resistance').val());
+
+        // Check which values are provided and calculate the missing one
+        if (!isNaN(voltage) && !isNaN(current)) {
+            // Calculate resistance
+            const calculatedResistance = voltage / current;
+            $('#result').text(`Resistance: ${calculatedResistance.toFixed(2)} Ω`);
+        } else if (!isNaN(voltage) && !isNaN(resistance)) {
+            // Calculate current
+            const calculatedCurrent = voltage / resistance;
+            $('#result').text(`Current: ${calculatedCurrent.toFixed(2)} A`);
+        } else if (!isNaN(current) && !isNaN(resistance)) {
+            // Calculate voltage
+            const calculatedVoltage = current * resistance;
+            $('#result').text(`Voltage: ${calculatedVoltage.toFixed(2)} V`);
+        } else {
+            $('#result').text('Please enter two values to calculate the third one.');
+        }
+    });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPA Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #edf2f7; /* Tailwind's gray-200 */
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center h-screen">
+
+<div class="bg-white p-8 rounded shadow-lg w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-4 text-center">GPA Calculator</h2>
+
+    <div id="courses">
+        <div class="course mb-4">
+            <label class="block mb-2">Course Name:</label>
+            <input type="text" class="course-name border p-2 w-full mb-2" placeholder="Enter course name">
+            
+            <label class="block mb-2">Grade:</label>
+            <select class="grade border p-2 w-full mb-2">
+                <option value="4">A</option>
+                <option value="3.67">A-</option>
+                <option value="3.33">B+</option>
+                <option value="3">B</option>
+                <option value="2.67">B-</option>
+                <option value="2.33">C+</option>
+                <option value="2">C</option>
+                <option value="1.67">C-</option>
+                <option value="1.33">D+</option>
+                <option value="1">D</option>
+                <option value="0">F</option>
+            </select>
+
+            <label class="block mb-2">Credit Hours:</label>
+            <input type="number" class="credit-hours border p-2 w-full" placeholder="Enter credit hours" min="0" step="any">
+        </div>
+    </div>
+
+    <button id="addCourse" class="bg-green-500 text-white p-3 rounded w-full mb-4">Add Course</button>
+    <button id="calculate" class="bg-blue-500 text-white p-3 rounded w-full">Calculate GPA</button>
+
+    <h3 class="text-xl font-bold mt-4">Your GPA: <span id="resultGPA" class="text-blue-500">N/A</span></h3>
+</div>
+
+<script>
+$(document).ready(function() {
+    // Function to add a new course input
+    $('#addCourse').click(function() {
+        const courseHtml = `
+        <div class="course mb-4">
+            <label class="block mb-2">Course Name:</label>
+            <input type="text" class="course-name border p-2 w-full mb-2" placeholder="Enter course name">
+            
+            <label class="block mb-2">Grade:</label>
+            <select class="grade border p-2 w-full mb-2">
+                <option value="4">A</option>
+                <option value="3.67">A-</option>
+                <option value="3.33">B+</option>
+                <option value="3">B</option>
+                <option value="2.67">B-</option>
+                <option value="2.33">C+</option>
+                <option value="2">C</option>
+                <option value="1.67">C-</option>
+                <option value="1.33">D+</option>
+                <option value="1">D</option>
+                <option value="0">F</option>
+            </select>
+
+            <label class="block mb-2">Credit Hours:</label>
+            <input type="number" class="credit-hours border p-2 w-full" placeholder="Enter credit hours" min="0" step="any">
+        </div>`;
+        $('#courses').append(courseHtml);
+    });
+
+    // Function to calculate GPA
+    $('#calculate').click(function() {
+        let totalQualityPoints = 0;
+        let totalCreditHours = 0;
+
+        $('.course').each(function() {
+            const grade = parseFloat($(this).find('.grade').val());
+            const creditHours = parseFloat($(this).find('.credit-hours').val());
+
+            if (!isNaN(grade) && !isNaN(creditHours) && creditHours > 0) {
+                totalQualityPoints += grade * creditHours;
+                totalCreditHours += creditHours;
+            }
+        });
+
+        if (totalCreditHours > 0) {
+            const gpa = totalQualityPoints / totalCreditHours;
+            $('#resultGPA').text(gpa.toFixed(2));
+        } else {
+            $('#resultGPA').text('N/A');
+            alert('Please enter valid credit hours for at least one course.');
+        }
+    });
+});
+</script>
+
+</body>
+</html>

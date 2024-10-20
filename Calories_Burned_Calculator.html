@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calories Burned Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #edf2f7; /* Tailwind's gray-200 */
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center h-screen">
+
+<div class="bg-white p-8 rounded shadow-lg w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-4 text-center">Calories Burned Calculator</h2>
+    
+    <label for="weight" class="block mb-2">Weight (lbs):</label>
+    <input type="number" id="weight" class="border p-2 w-full mb-4" placeholder="Enter your weight">
+
+    <label for="duration" class="block mb-2">Duration (minutes):</label>
+    <input type="number" id="duration" class="border p-2 w-full mb-4" placeholder="Enter duration of exercise">
+
+    <label for="exerciseType" class="block mb-2">Exercise Type:</label>
+    <select id="exerciseType" class="border p-2 w-full mb-4">
+        <option value="running">Running (10 cal/min)</option>
+        <option value="cycling">Cycling (8 cal/min)</option>
+        <option value="swimming">Swimming (7 cal/min)</option>
+        <option value="walking">Walking (4 cal/min)</option>
+        <option value="jumping">Jumping Rope (12 cal/min)</option>
+    </select>
+
+    <button id="calculateCalories" class="bg-blue-500 text-white p-3 rounded w-full">Calculate</button>
+
+    <h3 class="text-xl font-bold mt-4">Total Calories Burned: <span id="caloriesBurned" class="text-blue-500">0</span></h3>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#calculateCalories').click(function() {
+        const weight = parseFloat($('#weight').val());
+        const duration = parseFloat($('#duration').val());
+        const exerciseType = $('#exerciseType').val();
+
+        let caloriesPerMinute;
+        switch (exerciseType) {
+            case 'running':
+                caloriesPerMinute = 10;
+                break;
+            case 'cycling':
+                caloriesPerMinute = 8;
+                break;
+            case 'swimming':
+                caloriesPerMinute = 7;
+                break;
+            case 'walking':
+                caloriesPerMinute = 4;
+                break;
+            case 'jumping':
+                caloriesPerMinute = 12;
+                break;
+            default:
+                caloriesPerMinute = 0;
+        }
+
+        if (isNaN(weight) || isNaN(duration) || weight < 0 || duration < 0) {
+            $('#caloriesBurned').text('Invalid Input');
+            return;
+        }
+
+        // Calculate total calories burned
+        const caloriesBurned = (caloriesPerMinute * duration);
+
+        $('#caloriesBurned').text(caloriesBurned.toFixed(2));
+    });
+});
+</script>
+
+</body>
+</html>

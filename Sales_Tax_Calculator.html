@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Tax Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #edf2f7; /* Tailwind's gray-200 */
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center h-screen">
+
+<div class="bg-white p-8 rounded shadow-lg w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-4 text-center">Sales Tax Calculator</h2>
+
+    <label for="amount" class="block mb-2">Total Amount:</label>
+    <input type="number" id="amount" class="border p-2 w-full mb-4" placeholder="Enter total amount" step="any">
+
+    <label for="taxRate" class="block mb-2">Sales Tax Rate (%):</label>
+    <input type="number" id="taxRate" class="border p-2 w-full mb-4" placeholder="Enter sales tax rate" step="any">
+
+    <button id="calculate" class="bg-blue-500 text-white p-3 rounded w-full">Calculate Total</button>
+
+    <h3 class="text-xl font-bold mt-4">Total Amount (including tax): <span id="resultTotal" class="text-blue-500">N/A</span></h3>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#calculate').click(function() {
+        const amount = parseFloat($('#amount').val());
+        const taxRate = parseFloat($('#taxRate').val());
+
+        // Check if inputs are valid
+        if (isNaN(amount) || amount < 0 || isNaN(taxRate) || taxRate < 0) {
+            $('#resultTotal').text('Invalid Input');
+            return;
+        }
+
+        // Calculate total amount including tax
+        const totalTax = (amount * (taxRate / 100));
+        const totalAmount = amount + totalTax;
+
+        $('#resultTotal').text(totalAmount.toFixed(2));
+    });
+});
+</script>
+
+</body>
+</html>

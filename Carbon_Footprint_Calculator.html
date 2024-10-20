@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carbon Footprint Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #edf2f7; /* Tailwind's gray-200 */
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center h-screen">
+
+<div class="bg-white p-8 rounded shadow-lg w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-4 text-center">Carbon Footprint Calculator</h2>
+
+    <label for="energyConsumption" class="block mb-2">Monthly Energy Consumption (kWh):</label>
+    <input type="number" id="energyConsumption" class="border p-2 w-full mb-4" placeholder="Enter energy consumption" step="any">
+
+    <label for="milesDriven" class="block mb-2">Monthly Miles Driven:</label>
+    <input type="number" id="milesDriven" class="border p-2 w-full mb-4" placeholder="Enter miles driven" step="any">
+
+    <label for="wasteProduced" class="block mb-2">Monthly Waste (lbs):</label>
+    <input type="number" id="wasteProduced" class="border p-2 w-full mb-4" placeholder="Enter waste produced" step="any">
+
+    <button id="calculate" class="bg-blue-500 text-white p-3 rounded w-full">Calculate Carbon Footprint</button>
+
+    <h3 class="text-xl font-bold mt-4">Estimated Carbon Footprint: <span id="resultFootprint" class="text-blue-500">N/A</span> kg CO₂</h3>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#calculate').click(function() {
+        const energyConsumption = parseFloat($('#energyConsumption').val());
+        const milesDriven = parseFloat($('#milesDriven').val());
+        const wasteProduced = parseFloat($('#wasteProduced').val());
+
+        // Check if inputs are valid
+        if (isNaN(energyConsumption) || energyConsumption < 0 ||
+            isNaN(milesDriven) || milesDriven < 0 ||
+            isNaN(wasteProduced) || wasteProduced < 0) {
+            $('#resultFootprint').text('Invalid Input');
+            return;
+        }
+
+        // Constants for calculations (approximate emissions factors)
+        const energyFactor = 0.7; // kg CO₂ per kWh
+        const drivingFactor = 0.404; // kg CO₂ per mile
+        const wasteFactor = 0.1; // kg CO₂ per lb of waste
+
+        // Calculate carbon footprint
+        const footprintFromEnergy = energyConsumption * energyFactor;
+        const footprintFromDriving = milesDriven * drivingFactor;
+        const footprintFromWaste = wasteProduced * wasteFactor;
+
+        const totalFootprint = footprintFromEnergy + footprintFromDriving + footprintFromWaste;
+
+        $('#resultFootprint').text(totalFootprint.toFixed(2));
+    });
+});
+</script>
+
+</body>
+</html>
